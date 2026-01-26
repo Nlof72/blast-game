@@ -32,9 +32,10 @@ git checkout --orphan gh-pages 2>/dev/null || git checkout gh-pages
 git rm -rf . 2>/dev/null || true
 
 echo "📂 Copying build files..."
-cd build/web-mobile
-find . -mindepth 1 -maxdepth 1 ! -name '.DS_Store' -exec cp -r {} ../.. \;
-cd ../..
+cp -r build/web-mobile/* . 2>/dev/null || true
+if [ -d "build/web-mobile/src" ]; then
+  cp -r build/web-mobile/src . 2>/dev/null || true
+fi
 
 echo "📝 Creating .nojekyll file..."
 touch .nojekyll
