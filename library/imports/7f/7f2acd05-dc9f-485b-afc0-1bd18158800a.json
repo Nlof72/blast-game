@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "icon_booster_bomb",
+    "texture": "4e05b9b1-c082-4af9-98d4-8477ea23ec32",
+    "atlas": "",
+    "rect": [
+      2,
+      2,
+      93,
+      108
+    ],
+    "offset": [
+      1,
+      2.5
+    ],
+    "originalSize": [
+      95,
+      117
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
