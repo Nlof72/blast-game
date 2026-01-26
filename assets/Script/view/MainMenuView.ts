@@ -10,6 +10,7 @@ export default class MainMenuView extends cc.Component {
   @property(cc.Label)
   levelLabel: cc.Label = null;
   
+
   onLoad() {
     if (this.playButton) {
       this.playButton.node.on(cc.Node.EventType.TOUCH_END, this.onPlayClick, this);
@@ -26,6 +27,6 @@ export default class MainMenuView extends cc.Component {
   }
   
   private onPlayClick(): void {
-    cc.director.loadScene("main");
+    cc.director.loadScene("MainScene");
   }
 }

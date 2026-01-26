@@ -8,7 +8,7 @@
   },
   "packageName": "org.cocos2d.helloworld",
   "startScene": "dcbaa59e-b12d-447e-b0fe-7aa4111715d6",
-  "title": "hello_world",
+  "title": "Blast",
   "webOrientation": "auto",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
