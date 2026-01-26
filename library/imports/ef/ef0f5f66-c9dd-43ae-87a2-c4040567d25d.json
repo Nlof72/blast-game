@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "bg_booster",
+    "texture": "ae835b90-7d19-4aea-ab59-deb36c3de11e",
+    "atlas": "",
+    "rect": [
+      5,
+      3,
+      201,
+      339
+    ],
+    "offset": [
+      0,
+      0.5
+    ],
+    "originalSize": [
+      211,
+      346
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
