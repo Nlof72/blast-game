@@ -26,8 +26,9 @@ git checkout --orphan gh-pages 2>/dev/null || git checkout gh-pages
 git rm -rf . 2>/dev/null || true
 
 echo "📂 Copying build files..."
-shopt -s dotglob
+shopt -s dotglob nullglob
 cp -r build/web-mobile/* . 2>/dev/null || true
+cp build/web-mobile/.* . 2>/dev/null || true
 
 echo "📝 Creating .nojekyll file..."
 touch .nojekyll
