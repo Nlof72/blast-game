@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets/Script/core/ShuffleResult.ts"],"names":[],"mappings":"","file":"","sourceRoot":"/","sourcesContent":["import { Vec2i } from \"./Vec2i\";\nimport { Tile } from \"./Tile\";\n\nexport interface ShuffleChange {\n  at: Vec2i;\n  tile: Tile;\n}\n\nexport interface ShuffleResult {\n  changes: ShuffleChange[];\n}\n"]}

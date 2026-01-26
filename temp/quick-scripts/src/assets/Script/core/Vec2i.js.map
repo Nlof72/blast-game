@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets/Script/core/Vec2i.ts"],"names":[],"mappings":";;;;;;;AAKE,SAAgB,KAAK,CAAC,CAAQ;IAC5B,OAAU,CAAC,CAAC,CAAC,SAAI,CAAC,CAAC,CAAG,CAAC;AACzB,CAAC;AAFD,sBAEC","file":"","sourceRoot":"/","sourcesContent":["export interface Vec2i {\n    x: number;\n    y: number;\n  }\n  \n  export function keyOf(p: Vec2i): string {\n    return `${p.x}_${p.y}`;\n  }"]}
