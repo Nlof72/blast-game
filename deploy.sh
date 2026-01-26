@@ -9,6 +9,12 @@ if [ ! -d "build/web-mobile" ]; then
     exit 1
 fi
 
+if [ ! -f "build/web-mobile/index.html" ]; then
+    echo "❌ Error: index.html not found in build/web-mobile!"
+    echo "The build seems incomplete. Please rebuild the project in Cocos Creator."
+    exit 1
+fi
+
 CURRENT_BRANCH=$(git branch --show-current)
 
 if [ "$CURRENT_BRANCH" != "main" ] && [ "$CURRENT_BRANCH" != "master" ]; then
