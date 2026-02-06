@@ -16,10 +16,10 @@ export default class BoardView extends cc.Component {
   @property([cc.SpriteFrame])
   normalFrames: cc.SpriteFrame[] = [];
 
-  @property([cc.Integer])
+  @property({ type: [cc.Integer], tooltip: "SpecialEffect values: 0=ClearRow, 1=ClearColumn, 2=BombRadius, 3=ClearBoard" })
   specialEffectKeys: number[] = [];
 
-  @property([cc.SpriteFrame])
+  @property({ type: [cc.SpriteFrame], tooltip: "Frames aligned by index with specialEffectKeys" })
   specialEffectFrames: cc.SpriteFrame[] = [];
 
   @property(cc.SpriteFrame)
@@ -261,15 +261,36 @@ export default class BoardView extends cc.Component {
 
   private buildSpecialFrameMap(): void {
     this.specialFramesByEffect.clear();
+    if (this.specialEffectKeys.length !== this.specialEffectFrames.length) {
+      cc.warn(
+        "[BoardView] specialEffectKeys and specialEffectFrames length mismatch:",
+        this.specialEffectKeys.length,
+        this.specialEffectFrames.length
+      );
+    }
+
     const len = Math.min(this.specialEffectKeys.length, this.specialEffectFrames.length);
+    const seen = new Set<number>();
     for (let i = 0; i < len; i++) {
-      const effect = this.specialEffectKeys[i] as SpecialEffect;
+      const effect = this.specialEffectKeys[i];
       const frame = this.specialEffectFrames[i];
-      if (frame == null) continue;
-      if (this.specialFramesByEffect.has(effect)) {
-        cc.warn("[BoardView] duplicate special effect frame for:", effect);
+      if (frame == null) {
+        cc.warn("[BoardView] missing frame for effect index:", effect);
+        continue;
       }
-      this.specialFramesByEffect.set(effect, frame);
+      if (effect < 0 || effect > 3) {
+        cc.warn("[BoardView] unknown SpecialEffect value:", effect);
+        continue;
+      }
+      if (seen.has(effect)) {
+        cc.warn("[BoardView] duplicate special effect key:", effect);
+      }
+      seen.add(effect);
+      this.specialFramesByEffect.set(effect as SpecialEffect, frame);
+    }
+
+    if (this.specialFramesByEffect.size === 0) {
+      cc.warn("[BoardView] no special effect frames configured.");
     }
   }
 

@@ -23,7 +23,7 @@ describe("MoveResolver", () => {
   };
 
   const spawnRules: SpecialSpawnRules = {
-    tiers: [{ min: 5, effects: [SpecialEffect.ClearRow] }],
+    tiers: [{ min: 2, effects: [SpecialEffect.ClearRow] }],
   };
 
   const rules: BoardRules = {
@@ -64,6 +64,9 @@ describe("MoveResolver", () => {
     expect(result?.removed.length).toBe(2);
     expect(result?.groupSize).toBe(2);
     expect(result?.spawns.length).toBeGreaterThan(0);
+    expect(result?.tileUpdates).toBeUndefined();
+    const hasSpecialSpawn = result?.spawns.some((s) => s.tile.kind === "special") ?? false;
+    expect(hasSpecialSpawn).toBe(true);
   });
 
   it("special click applies effect", () => {

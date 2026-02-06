@@ -5,7 +5,7 @@ import { BoardModel } from "../assets/Script/core/BoardModel";
 
 class FixedScorePolicy implements ScorePolicy {
   constructor(private readonly value: number) {}
-  public calcScore(): number {
+  public calcScore(_groupSize: number): number {
     return this.value;
   }
 }
