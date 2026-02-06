@@ -14,14 +14,6 @@ export class MoveAvailability {
       }
     }
 
-    return this.groupFinder.hasAnyNormalGroup(
-      {
-        cols: context.cols,
-        rows: context.rows,
-        get: context.get,
-        inBounds: context.inBounds,
-      },
-      minGroupSize
-    );
+    return this.groupFinder.hasAnyNormalGroup(context, minGroupSize);
   }
 }

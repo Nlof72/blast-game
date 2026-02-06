@@ -1,97 +1,116 @@
 # Реализация тестов (пошагово)
 
-Ниже — последовательность шагов и какие файлы создать, чтобы получить полный набор тестов для механик.
+Ниже — последовательность шагов, фактическая реализация и проверка после каждого шага.
 
-## Шаг 1. Выбрать инфраструктуру тестов
-- Рекомендуемый вариант: `jest` + `ts-jest`.
-- Альтернатива: встроенный `ts-node` + minimal harness.
+## Шаг 1. Инфраструктура тестов (`jest` + `ts-jest`)
+**Сделано:**
+- Добавлены `package.json`, `jest.config.js`.
+- Создана папка `tests/`.
+- Установлены зависимости: `jest`, `ts-jest`, `@types/jest`.
 
-**Файлы:**
-- `package.json` (скрипты test)
-- `jest.config.js`
-- `tests/` (папка для тестов)
+**Статус:** ✅ выполнено.
+**Проверка:** `ls package.json jest.config.js tests/`.
 
 ---
 
-## Шаг 2. Подготовить вспомогательные утилиты
-Создать утилиты в `tests/utils/`:
-1. `FakeRng.ts` — детерминированный RNG.
-2. `TestBoard.ts` — builder для тестовой доски (set/get по координатам).
-3. `TestContext.ts` — реализация `BoardContext` для юнит‑тестов.
+## Шаг 2. Вспомогательные утилиты
+**Сделано:**
+- `tests/utils/FakeRng.ts` — детерминированный RNG.
+- `tests/utils/TestBoard.ts` — builder для сетки + helper‑тайлы.
+- `tests/utils/TestContext.ts` — `BoardContext` для тестов.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `ls tests/utils`.
 
 ---
 
 ## Шаг 3. Тесты для GroupFinder
 **Файл:** `tests/GroupFinder.test.ts`
-- Группа 1 (single)
-- Группа 2 (L‑shape)
-- Группа 3 (diagonal)
-- Группа 4 (mixed colors)
+**Покрытие:** single, L‑shape, diagonal, mixed colors.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 4. Тесты для MoveAvailability
 **Файл:** `tests/MoveAvailability.test.ts`
-- no moves
-- has group
-- has special
+**Покрытие:** no moves, has group, has special.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 5. Тесты для EffectHandlers
 **Файл:** `tests/EffectHandlers.test.ts`
-- ClearRow
-- ClearColumn
-- BombRadius (center + edge)
-- ClearBoard
+**Покрытие:** ClearRow, ClearColumn, BombRadius (center/edge), ClearBoard.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 6. Тесты для SpecialSpawnPolicy
 **Файл:** `tests/SpecialSpawnPolicy.test.ts`
-- tiers
-- выбор эффекта из списка
-- null при маленькой группе
+**Покрытие:** tiers, выбор эффекта, null при маленькой группе.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 7. Тесты для GravitySystem
 **Файл:** `tests/GravitySystem.test.ts`
-- падение вниз
-- спавн новых
-- создание спец‑тайла
+**Покрытие:** падение вниз, спавн, спец‑тайл.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 8. Тесты для MoveResolver
 **Файл:** `tests/MoveResolver.test.ts`
-- клики normal/special
-- корректные команды moves/spawns
+**Покрытие:** normal/special клики, removed/spawns.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 9. Тесты для ShuffleSystem
 **Файл:** `tests/ShuffleSystem.test.ts`
-- сохранение числа тайлов
-- изменения позиций
+**Покрытие:** сохранение числа тайлов, изменения позиций.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 10. Тесты для BombSystem
 **Файл:** `tests/BombSystem.test.ts`
-- удаление по радиусу
-- границы
+**Покрытие:** радиус, границы.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
 ## Шаг 11. Тесты для ScorePolicy + GameController
 **Файл:** `tests/ScorePolicy.test.ts`
-- mock policy
-- проверка итоговых очков
+**Покрытие:** инъекция policy, корректный счет.
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS.
 
 ---
 
-## Шаг 12. Проверки и CI
-- Добавить `npm test`.
-- По возможности включить в CI (GitHub Actions/CI локально).
+## Шаг 12. Проверки
+**Сделано:**
+- `npm test` запущен, все тесты проходят.
+- Отключен watchman в `jest.config.js`.
+- Конфиг `ts-jest` переведен на `transform` (без warnings).
+
+**Статус:** ✅ выполнено.
+**Проверка:** `npm test` → PASS (9 suites, 25 tests).
 
