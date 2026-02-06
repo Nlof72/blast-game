@@ -499,7 +499,13 @@
         "__uuid__": "d51d5a85-2be2-4bc9-a739-60414efb6375"
       }
     ],
-    "specialFrames": [
+    "specialEffectKeys": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "specialEffectFrames": [
       {
         "__uuid__": "bf31725e-7897-4acc-a5fc-bdc8320ddc13"
       },
@@ -513,6 +519,9 @@
         "__uuid__": "d5c30b43-30eb-4dec-b829-9513caa6e0a7"
       }
     ],
+    "defaultSpecialFrame": {
+      "__uuid__": "bf31725e-7897-4acc-a5fc-bdc8320ddc13"
+    },
     "tileSize": 64,
     "spacing": 4,
     "removeDuration": 0.12,
@@ -5729,7 +5738,6 @@
     "movesLimit": 20,
     "minGroupSize": 2,
     "bombRadius": 1,
-    "superMinGroup": 6,
     "shuffleBoosterUses": 3,
     "bombBoosterUses": 3,
     "_id": "f1B2eF691G/4yMbBuVi1b6"

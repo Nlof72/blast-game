@@ -5,7 +5,7 @@ import { keyOf, Vec2i } from "../core/Vec2i";
 import { TurnResult } from "../core/TurnResult";
 import TileView from "./TileView";
 import { ShuffleResult } from "../core/ShuffleResult";
-import { Tile } from "../core/Tile";
+import { Tile, SpecialEffect } from "../core/tiles/Tile";
 
 
 @ccclass
@@ -16,8 +16,14 @@ export default class BoardView extends cc.Component {
   @property([cc.SpriteFrame])
   normalFrames: cc.SpriteFrame[] = [];
 
+  @property([cc.Integer])
+  specialEffectKeys: number[] = [];
+
   @property([cc.SpriteFrame])
-  specialFrames: cc.SpriteFrame[] = [];
+  specialEffectFrames: cc.SpriteFrame[] = [];
+
+  @property(cc.SpriteFrame)
+  defaultSpecialFrame: cc.SpriteFrame = null;
 
   @property
   tileSize: number = 64;
@@ -37,6 +43,7 @@ export default class BoardView extends cc.Component {
   private board: BoardModel = null;
   private cols: number = 0;
   private rows: number = 0;
+  private specialFramesByEffect: Map<SpecialEffect, cc.SpriteFrame> = new Map();
 
   private tiles: Map<string, TileView> = new Map();
   private onTileClick: ((x: number, y: number) => void) | null = null;
@@ -51,6 +58,7 @@ export default class BoardView extends cc.Component {
     this.board = board;
     this.cols = board.getCols();
     this.rows = board.getRows();
+    this.buildSpecialFrameMap();
 
     this.onTileClick = (x, y) => {
       if (!this.inputEnabled) return;
@@ -236,12 +244,33 @@ export default class BoardView extends cc.Component {
     node.setPosition(this.coordToLocalPos(coord.x, coord.y));
 
     const tv = node.getComponent(TileView);
-    tv.init(coord, tile, this.normalFrames, this.specialFrames, (x, y) => {
-      this.onTileClick?.(x, y);
-    });
+    tv.init(
+      coord,
+      tile,
+      this.normalFrames,
+      this.specialFramesByEffect,
+      (x, y) => {
+        this.onTileClick?.(x, y);
+      },
+      this.defaultSpecialFrame
+    );
 
     this.tiles.set(keyOf(coord), tv);
     return tv;
+  }
+
+  private buildSpecialFrameMap(): void {
+    this.specialFramesByEffect.clear();
+    const len = Math.min(this.specialEffectKeys.length, this.specialEffectFrames.length);
+    for (let i = 0; i < len; i++) {
+      const effect = this.specialEffectKeys[i] as SpecialEffect;
+      const frame = this.specialEffectFrames[i];
+      if (frame == null) continue;
+      if (this.specialFramesByEffect.has(effect)) {
+        cc.warn("[BoardView] duplicate special effect frame for:", effect);
+      }
+      this.specialFramesByEffect.set(effect, frame);
+    }
   }
 
   private coordToLocalPos(x: number, y: number): cc.Vec3 {

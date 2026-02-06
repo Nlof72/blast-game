@@ -2,6 +2,7 @@ const { ccclass, property } = cc._decorator;
 
 import { GameConfig } from "../core/GameConfig";
 import { BoardModel, BoardRules } from "../core/BoardModel";
+import { SpecialEffect } from "../core/tiles/Tile";
 import { GameController, GameStatus } from "../game/GameController";
 import { LevelManager } from "../utils/LevelManager";
 import BoardView from "./BoardView";
@@ -47,9 +48,6 @@ export default class GameRoot extends cc.Component {
   bombRadius: number = 2;
 
   @property
-  superMinGroup: number = 6;
-
-  @property
   shuffleBoosterUses: number = 3;
 
   @property
@@ -82,7 +80,13 @@ export default class GameRoot extends cc.Component {
     const rules: BoardRules = {
       minGroupSize: this.minGroupSize,
       bombRadius: this.bombRadius,
-      superMinGroup: this.superMinGroup
+      specialSpawnRules: {
+        tiers: [
+          { min: 5, max: 6, effects: [SpecialEffect.ClearRow, SpecialEffect.ClearColumn] },
+          { min: 7, max: 8, effects: [SpecialEffect.BombRadius], radius: 1 },
+          { min: 9, effects: [SpecialEffect.ClearBoard] },
+        ],
+      },
     };
 
     this.controller = new GameController(config);

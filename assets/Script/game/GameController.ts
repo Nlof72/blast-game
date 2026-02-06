@@ -2,6 +2,7 @@ import { GameConfig } from "../core/GameConfig";
 import { BoardModel } from "../core/BoardModel";
 import { TurnResult } from "../core/TurnResult";
 import { ShuffleResult } from "../core/ShuffleResult";
+import { DefaultScorePolicy, ScorePolicy } from "../core/score/ScorePolicy";
 
 
 export enum GameStatus {
@@ -23,10 +24,12 @@ export class GameController {
   private board: BoardModel | null = null;
   private shuffleUsed: number = 0;
   private readonly maxShuffle: number = 3;
+  private readonly scorePolicy: ScorePolicy;
 
 
-  constructor(private config: GameConfig) {
+  constructor(private config: GameConfig, scorePolicy: ScorePolicy = new DefaultScorePolicy()) {
     this.movesLeft = config.movesLimit;
+    this.scorePolicy = scorePolicy;
   }
 
   public bindBoard(board: BoardModel): void {
@@ -95,6 +98,6 @@ export class GameController {
   }
 
   public calcScore(groupSize: number): number {
-    return groupSize * groupSize * 5;
+    return this.scorePolicy.calcScore(groupSize);
   }
 }

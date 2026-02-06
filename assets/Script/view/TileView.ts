@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 
-import { Tile, SpecialEffect } from "../core/Tile";
+import { Tile, SpecialEffect } from "../core/tiles/Tile";
 import { Vec2i } from "../core/Vec2i";
 
 @ccclass
@@ -12,7 +12,8 @@ export default class TileView extends cc.Component {
   private tile: Tile = { kind: "normal", color: 0 };
 
   private normalFrames: cc.SpriteFrame[] = [];
-  private specialFrames: cc.SpriteFrame[] = [];
+  private specialFramesByEffect: Map<SpecialEffect, cc.SpriteFrame> = new Map();
+  private defaultSpecialFrame: cc.SpriteFrame | null = null;
 
   private clickHandler: ((x: number, y: number) => void) | null = null;
 
@@ -29,13 +30,15 @@ export default class TileView extends cc.Component {
     coord: Vec2i,
     tile: Tile,
     normalFrames: cc.SpriteFrame[],
-    specialFrames: cc.SpriteFrame[],
-    clickHandler: (x: number, y: number) => void
+    specialFramesByEffect: Map<SpecialEffect, cc.SpriteFrame>,
+    clickHandler: (x: number, y: number) => void,
+    defaultSpecialFrame: cc.SpriteFrame | null = null
   ): void {
     this.coord = { x: coord.x, y: coord.y };
     this.normalFrames = normalFrames;
-    this.specialFrames = specialFrames;
+    this.specialFramesByEffect = specialFramesByEffect;
     this.clickHandler = clickHandler;
+    this.defaultSpecialFrame = defaultSpecialFrame;
 
     this.setTile(tile);
   }
@@ -63,11 +66,10 @@ export default class TileView extends cc.Component {
       return;
     }
 
-    const idx = tile.effect as number;
-    const frame = this.specialFrames[idx];
+    const frame = this.specialFramesByEffect.get(tile.effect);
     if (!frame) {
-      cc.error("[TileView] specialFrames missing for effect index:", idx);
-      this.sprite.spriteFrame = this.normalFrames[this.normalFrames.length - 1] ?? null;
+      cc.error("[TileView] specialFrames missing for effect:", tile.effect);
+      this.sprite.spriteFrame = this.defaultSpecialFrame ?? this.normalFrames[this.normalFrames.length - 1] ?? null;
       return;
     }
     this.sprite.spriteFrame = frame;
